@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Yaş Hesaplama</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h1>JavaScript <br /> Yaş Hesaplama</h1>
+            <div class="input-box">
+                <input type="date" id="date" />
+                <button onclick="calculatorpage()">Hesapla</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+    <script>
+        let userInput = document.getElementById("date");
+        userInput.max = new Date().toISOString().split("T")[0];
+    //Buradaki işlem ne demek
+    //kullanıcıdan alınan degeri tarih formatına çevirir ve alacagı degeri maksimum bugun'e kadar seçebilir.
+    //Bunu ayarlamak için ise alınan değeri iso formatına çevirerek
+    //spil komutu ile sadece tarih formatını aldık ve ileriini seçmesini engelledik.
+    //ISOString uluslar arası tarih formatı yyyy/aa/gg şekilindedir.
+
+        let result = document.getElementById("result");
+        function calculatorpage() {
+
+            let birtDate = new Date(userInput.value);
+            let d1 = birtDate.getDate();
+            let m1 = birtDate.getMonth() + 1;
+            let y1 = birtDate.getFullYear();//kullanıcının girdigi deger
+
+            let today = new Date();
+            let d2 = today.getDate();//bugunun tarihi
+            let m2 = today.getMonth() + 1;
+            let y2 = today.getFullYear();
+
+            let d3, m3, y3;
+            y3 = y2 - y1;
+            if (m2 >= m1) {
+                m3 = m2 - m1;
+            }
+            else {
+                y3--;
+                m3 = 12 + m2 - m1;
+            }
+            if (d2 >= d1) {
+                d3 = d2 - d1;
+            }
+            else {
+                m3--;
+                d3 = getDaysInMonth(y1, m1) + d2 - d1;
+            }
+            if (m3 < 0) {
+                m3 = 11;
+                y3--;
+            }
+
+            if (isNaN(y3) || isNaN(m3) || isNaN(d3)) {
+                result.innerHTML = 'lütfen tarih seçinizi '
+            }
+            else {
+                result.innerHTML = 'siz <span>' + y3 + '</span> yıldır, <span>' + m3 + '</span> aydır, <span>' + d3 + '</span> gündür yaşıyorsunuz';
+
+            }
+        }
+        function getDaysInMonth(year, month) {
+            return new Date(year, month, 0).getDate();
+        }
+    </script>
+</body>
+</html>
